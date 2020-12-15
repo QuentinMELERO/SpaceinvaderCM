@@ -33,9 +33,16 @@ buttonRecommencer.place(x=1050, y=250, width=100, height=50)
 Score = Label(Mafenetre, text='Score : Score du joueur', bg='white',fg='black', font=100)
 Score.place(x=5, y=5, width=250, height=30)
 
+
 # Création d'un widget Label (pout afficher le nombre de vie du joueur)
 Nbvie = Label(Mafenetre, text='Vie : Nombre de vie du joueur ', bg='white',fg='black', font=100)
 Nbvie.place(x=700, y=5, width=300, height=30)
+
+# Fonction pour afficher le nombre de vies du joueur
+
+#def NbVie(donnee):
+    #NbVie = Label(donnee.Mafenetre, text='Il vous reste ' + str(donnee.Vie) +  ' vies', bg='white',fg='black', font=100)
+    #Nbchance.place(x=700, y=5, width=300, height=30)
 
 # Création d'un widget Button (boutton quitter)
 buttonQuitt = Button (Mafenetre, text="QUITTER", fg ='white', bg='black',relief='groove', command = Mafenetre.destroy)

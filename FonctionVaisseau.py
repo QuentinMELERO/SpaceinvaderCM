@@ -1,16 +1,16 @@
 from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas
-from Vaisseau import PosX, PosY, CanvaJeu, vaisseau
 
-def Clavier(event):
+
+## Fonction pour le vaisseau 
+
+def Clavier(event,CanvaJeu,vaisseau,LARGEUR):
     """ Gestion de l'évènement Appui sur une touche du clavier"""
-    
     touche = event.keysym
-    print(touche)
-    # déplacement vers la droite 
-    if touche == '<Right>':
-        PosX += 20
-    # déplacement vers la gauche
-    if touche == '<Left>':
-        PosX -= 20
-    # On dessine le pion à sa nouvelle position
-    CanvaJeu.coords(vaisseau,PosX-10, PosY-10, PosX+10, PosY+10)
+    # déplacement vers la droite via la flèche de droite
+    if touche == 'Right' and PosX < LARGEUR-20 :
+        PosX += 30
+    # déplacement vers la gauche vie la flèche de gauche
+    if touche == 'Left' and PosX > 20:
+        PosX -= 30
+    # On dessine le vaisseau à sa nouvelle position
+    CanvaJeu.move(vaisseau,PosX,PosY)
