@@ -38,7 +38,6 @@ def Clavier(event):
     
 
 
-
 ## Mise en place de l'interface graphique principale
 
 Mafenetre = Tk()
