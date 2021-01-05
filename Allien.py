@@ -17,6 +17,7 @@ CanvaJeu = Canvas(Mafenetre, bg='black')
 # Informations pour l'allien
 Xa = 500
 Ya = 100
+n = 0
 vitesse = 5
 angle = 0
 DX = vitesse*math.cos(angle)
@@ -43,15 +44,21 @@ missile = CanvaJeu.create_oval(Xm-RAYON_m, Ym-RAYON_m, Xm+RAYON_m, Ym+RAYON_m, w
 ## Fonction de déplacement pour l'allien
 def deplacement_allien():
     """ déplacement de l'allien """
-    global Xa,DX,RAYON_a,LARGEUR,HAUTEUR
+    global Xa,DX,RAYON_a,LARGEUR,HAUTEUR,n,Ya
     # Rebond à droite
     if Xa + RAYON_a + DX > LARGEUR:
         Xa = 2*(LARGEUR-RAYON_a)-Xa
         DX = -DX
+        n += 1
     # Rebond à gauche
     if Xa - RAYON_a + DX < 0:
         Xa = 2*RAYON_a-Xa
         DX = -DX
+        n += 1
+    
+    if n == 2:
+        Ya += RAYON_a
+        n = 0
 
     Xa = Xa + DX
     CanvaJeu.coords(allien,Xa-RAYON_a, Ya-RAYON_a, Xa+RAYON_a, Ya+RAYON_a)
