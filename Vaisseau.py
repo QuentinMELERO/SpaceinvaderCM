@@ -37,6 +37,23 @@ CanvaJeu.focus_set()
 CanvaJeu.bind('<Key>',lambda event: Clavier(event))
 CanvaJeu.place(x=0, y=100, width=LARGEUR, height=HAUTEUR)
 
+## Création des blocks
+## bloc 1
+Xb1 = 200
+Yb1 = 400
+CanvaJeu.create_rectangle(Xb1-75, Yb1-50, Xb1+75, Yb1+50, width=1, outline='black', fill='red')
+
+## bloc 2
+Xb2 = 500
+Yb2 = 400
+CanvaJeu.create_rectangle(Xb2-75, Yb2-50, Xb2+75, Yb2+50, width=1, outline='black', fill='red')
+
+## bloc 3
+Xb3 = 800
+Yb3 = 400
+CanvaJeu.create_rectangle(Xb3-75, Yb3-50, Xb3+75, Yb3+50, width=1, outline='black', fill='red')
+
+
 
 # Création d'un widget Menu
 menubar = Menu(Mafenetre)
