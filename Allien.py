@@ -3,58 +3,6 @@
 from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas
 import math
 
-## Fonction de déplacement pour l'allien
-
-def deplacement():
-    """ déplacement de l'allien """
-    global X,DX,RAYON,LARGEUR,HAUTEUR
-    # Rebond à droite
-    if X + RAYON + DX > LARGEUR:
-        X = 2*(LARGEUR-RAYON)-X
-        DX = -DX
-    # Rebond à gauche
-    if X - RAYON + DX < 0:
-        X = 2*RAYON-X
-        DX = -DX
-
-    X = X + DX
-    CanvaJeu.coords(allien,X-RAYON, Y-RAYON, X+RAYON, Y+RAYON)
-    Mafenetre.after(20,deplacement)
-
-
-def deplacement_missile():
-    """ déplacement du missile """
-    global Ym,DY,RAYON,LARGEUR,HAUTEUR
-    # Rebond à droite
-    if Ym + RAYON_m + DY > LARGEUR:
-        Ym = 2*(HAUTEUR-RAYON_m)-Ym
-        DY = -DY
-    # Rebond à gauche
-    if Ym - RAYON_m + DY < 0:
-        Ym = 2*RAYON-Ym
-        DY = -DY
-
-    Ym = Ym + DY
-    CanvaJeu.coords(missile,Xm-RAYON_m, Ym-RAYON_m, Xm+RAYON_m, Ym+RAYON_m)
-    Mafenetre.after(20,deplacement_missile)
-
-## Fonction de déplacement pour le vaisseau
-
-def Clavier(event):
-    """ Gestion de l'évènement Appui sur une touche du clavier"""
-    touche = event.keysym
-    global PosX,PosY
-    # déplacement vers la droite via la flèche de droite
-    if touche == 'Right' and PosX < LARGEUR-20 :
-        PosX += 30
-    # déplacement vers la gauche vie la flèche de gauche
-    if touche == 'Left' and PosX > 20:
-        PosX -= 30
-    # On dessine le vaisseau à sa nouvelle position
-    CanvaJeu.coords(vaisseau,PosX-15,PosY-15,PosX+15,PosY+15)
-    
-
-
 ## Mise en place de l'interface graphique principale
 
 Mafenetre = Tk()
@@ -75,17 +23,13 @@ DX = vitesse*math.cos(angle)
 RAYON = 20 # Rayon de l'allien
 allien = CanvaJeu.create_oval(X-RAYON, Y-RAYON, X+RAYON, Y+RAYON, width=1, outline='black', fill='red')
 
-# Informations du vaisseau
+# Informations pour le vaisseau
 PosX = 500
 PosY = 580
-
 vaisseau = CanvaJeu.create_rectangle(PosX-15, PosY-15, PosX+15, PosY+15, width=1, outline='black', fill='red')
 CanvaJeu.focus_set()
 CanvaJeu.bind('<Key>',lambda event: Clavier(event))
-
 CanvaJeu.place(x=0, y=100, width=LARGEUR, height=HAUTEUR)
-deplacement()
-deplacement_missile()
 
 # Informations pour le missile
 Xm = 500
@@ -93,8 +37,62 @@ Ym = 580
 vitesse_m = 10
 angle = 0
 DY = vitesse_m*math.cos(angle)
-RAYON_m = 20 # Rayon du missile
+RAYON_m = 10 # Rayon du missile
 missile = CanvaJeu.create_oval(Xm-RAYON_m, Ym-RAYON_m, Xm+RAYON_m, Ym+RAYON_m, width=1, outline='black', fill='red')
+
+## Fonction de déplacement pour l'allien
+def deplacement():
+    """ déplacement de l'allien """
+    global X,DX,RAYON,LARGEUR,HAUTEUR
+    # Rebond à droite
+    if X + RAYON + DX > LARGEUR:
+        X = 2*(LARGEUR-RAYON)-X
+        DX = -DX
+    # Rebond à gauche
+    if X - RAYON + DX < 0:
+        X = 2*RAYON-X
+        DX = -DX
+
+    X = X + DX
+    CanvaJeu.coords(allien,X-RAYON, Y-RAYON, X+RAYON, Y+RAYON)
+    Mafenetre.after(20,deplacement)
+
+deplacement()
+
+## Fonction de déplacement pour le missile
+def deplacement_missile():
+    """ déplacement du missile """
+    global Ym,DY,RAYON,LARGEUR,HAUTEUR
+    # Dispararition du missile si hors de le fenêtre de jeu
+    if Ym - RAYON_m + DY < 0:
+        CanvaJeu.delete(missile)
+    Ym = Ym + DY
+    # Rebond en bas
+    if Ym + RAYON_m + DY > HAUTEUR:
+        Ym = 2*(HAUTEUR-RAYON_m)-Ym
+        DY = -DY
+    
+    CanvaJeu.coords(missile,Xm-RAYON_m, Ym-RAYON_m, Xm+RAYON_m, Ym+RAYON_m)
+    Mafenetre.after(20,deplacement_missile)
+
+## Fonction de déplacement pour le vaisseau
+
+def Clavier(event):
+    """ Gestion de l'évènement Appui sur une touche du clavier"""
+    touche = event.keysym
+    global PosX,PosY
+    # déplacement vers la droite via la flèche de droite
+    if touche == 'Right' and PosX < LARGEUR-20 :
+        PosX += 30
+    # déplacement vers la gauche vie la flèche de gauche
+    if touche == 'Left' and PosX > 20:
+        PosX -= 30
+    # lancement d'un missile via l'espace
+    if touche == 'space' :
+        deplacement_missile()
+    # On dessine le vaisseau à sa nouvelle position
+    CanvaJeu.coords(vaisseau,PosX-15,PosY-15,PosX+15,PosY+15)
+    
 
 # Création d'un widget Menu
 menubar = Menu(Mafenetre)
