@@ -1,15 +1,15 @@
-## Importation des bibliothèques nécessaires
+## Importation des bibliothèques nécessaires ##
 from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas
 import math
-from Class import jeu_Spaceinvaders, info_allien, class_missile, info_vaisseau
+from Class import jeu_Spaceinvaders, class_allien, class_missile, class_vaisseau, class_bloc1, class_bloc2, class_bloc3
 
-## Mise en place de l'interface graphique principale
+## Mise en place de l'interface graphique principale ##
 Mafenetre = Tk()
 Mafenetre.title('Space Invaders')
 Mafenetre.geometry('1200x700')
 donnee_jeu = jeu_Spaceinvaders(Mafenetre)
-donnee_allien = info_allien(Mafenetre)
-donnee_vaisseau = info_vaisseau(Mafenetre)
+allien = class_allien(Mafenetre)
+vaisseau = class_vaisseau(Mafenetre)
 
 # Zone principale du jeu
 HAUTEUR = 600
@@ -17,54 +17,70 @@ LARGEUR = 1000
 CanvaJeu = Canvas(Mafenetre, bg='black')
 
 # Création de l'allien
-allien = CanvaJeu.create_oval(donnee_allien.Xa-donnee_allien.RAYON_a, donnee_allien.Ya-donnee_allien.RAYON_a, donnee_allien.Xa+donnee_allien.RAYON_a, donnee_allien.Ya+donnee_allien.RAYON_a, width=1, outline='black', fill='red')
+allien_obj = CanvaJeu.create_oval(allien.Xa-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa+allien.RAYON_a, allien.Ya+allien.RAYON_a, width=1, outline='black', fill='red')
 
 # Création du vaisseau
-vaisseau = CanvaJeu.create_rectangle(donnee_vaisseau.Xv-15, donnee_vaisseau.Yv-15, donnee_vaisseau.Xv+15, donnee_vaisseau.Yv+15, width=1, outline='black', fill='red')
+vaisseau_obj = CanvaJeu.create_rectangle(vaisseau.Xv-15, vaisseau.Yv-15, vaisseau.Xv+15, vaisseau.Yv+15, width=1, outline='black', fill='red')
 CanvaJeu.focus_set()
 CanvaJeu.bind('<Key>',lambda event: Clavier(event))
 CanvaJeu.place(x=0, y=100, width=LARGEUR, height=HAUTEUR)
 
-# Informations pour le missile
-#missile = CanvaJeu.create_oval(missile.Xm-missile.RAYON_m, missile.Ym-missile.RAYON_m, missile.Xm+missile.RAYON_m, missile.Ym+missile.RAYON_m, width=1, outline='black', fill='white')
-
 ### Fonctions permettant de faire fonctionner la fonction principale ###
 
 ## Fonction de déplacement pour l'allien
-def deplacement_allien(donnee_allien):
+def deplacement_allien(allien):
     """ Fonction qui gère le déplacement de l'allien """
     # Rebond à droite
-    if donnee_allien.Xa + donnee_allien.RAYON_a + donnee_allien.DX_a > LARGEUR:
-        donnee_allien.DX_a = -donnee_allien.DX_a
-        donnee_allien.n += 1
+    if allien.Xa + allien.RAYON_a + allien.DX_a > LARGEUR:
+        allien.DX_a = -allien.DX_a
+        allien.n += 1
     # Rebond à gauche
-    if donnee_allien.Xa - donnee_allien.RAYON_a + donnee_allien.DX_a < 0:
-        donnee_allien.Xa = 2*donnee_allien.RAYON_a-donnee_allien.Xa
-        donnee_allien.DX_a = -donnee_allien.DX_a
-        donnee_allien.n += 1
-    if donnee_allien.n == 2:
-        donnee_allien.Ya += donnee_allien.RAYON_a
-        donnee_allien.n = 0
-    donnee_allien.Xa = donnee_allien.Xa + donnee_allien.DX_a
-    CanvaJeu.coords(allien,donnee_allien.Xa-donnee_allien.RAYON_a, donnee_allien.Ya-donnee_allien.RAYON_a, donnee_allien.Xa+donnee_allien.RAYON_a, donnee_allien.Ya+donnee_allien.RAYON_a)
-    Mafenetre.after(20,lambda x=donnee_allien : deplacement_allien(x))
+    if allien.Xa - allien.RAYON_a + allien.DX_a < 0:
+        allien.Xa = 2*allien.RAYON_a-allien.Xa
+        allien.DX_a = -allien.DX_a
+        allien.n += 1
+    if allien.n == 2:
+        allien.Ya += allien.RAYON_a
+        allien.n = 0
+    allien.Xa = allien.Xa + allien.DX_a
+    CanvaJeu.coords(allien_obj,allien.Xa-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa+allien.RAYON_a, allien.Ya+allien.RAYON_a)
+    Mafenetre.after(20,lambda x=allien : deplacement_allien(x))
 
-Mafenetre.after(0,lambda x=donnee_allien : deplacement_allien(x))
+Mafenetre.after(0,lambda x=allien : deplacement_allien(x))
+
+## Création des blocks
+Bloc_1 = class_bloc1(Mafenetre)
+Bloc_2 = class_bloc2(Mafenetre)
+Bloc_3 = class_bloc3(Mafenetre)
+
+# Bloc 1
+CanvaJeu.create_rectangle(Bloc_1.X1-75, Bloc_1.Y1-50, Bloc_1.X1+75, Bloc_1.Y1+50, width=1, outline='black', fill='red')
+
+# Bloc 2
+CanvaJeu.create_rectangle(Bloc_2.X2-75, Bloc_2.Y2-50, Bloc_2.X2+75, Bloc_2.Y2+50, width=1, outline='black', fill='red')
+
+# Bloc 3
+CanvaJeu.create_rectangle(Bloc_3.X3-75, Bloc_3.Y3-50, Bloc_3.X3+75, Bloc_3.Y3+50, width=1, outline='black', fill='red')
+
 
 ## Fonction qui fait disparaitre l'allien et le missile lors d'une collison
-def disparition(donnee_allien,missile_balle,missile):
+def disparition(allien,missile_balle,missile):
     """ Fonction qui s'occupe de la disparition de l'allien et du missile lors d'une colllision """
-    if  missile.Ym >= donnee_allien.Ya - donnee_allien.RAYON_a and missile.Ym <= donnee_allien.Ya + donnee_allien.RAYON_a and missile.Xm >= donnee_allien.Xa - donnee_allien.RAYON_a and missile.Xm <= donnee_allien.Xa + donnee_allien.RAYON_a  : 
+    if  missile.Ym >= allien.Ya - allien.RAYON_a and missile.Ym <= allien.Ya + allien.RAYON_a and missile.Xm >= allien.Xa - allien.RAYON_a and missile.Xm <= allien.Xa + allien.RAYON_a  : 
         CanvaJeu.delete(missile_balle)
-        CanvaJeu.delete(allien)
-        return True 
-    return False
-
+        CanvaJeu.delete(allien_obj)
+    if missile.Ym >= Bloc_1.Y1-50 and missile.Ym <= Bloc_1.Y1+50 and missile.Xm >= Bloc_1.X1-75 and missile.Xm <= Bloc_1.X1+75 :
+        CanvaJeu.delete(missile_balle)
+    if missile.Ym >= Bloc_2.Y2-50 and missile.Ym <= Bloc_2.Y2+50 and missile.Xm >= Bloc_2.X2-75 and missile.Xm <= Bloc_2.X2+75 :
+        CanvaJeu.delete(missile_balle)
+    if missile.Ym >= Bloc_3.Y3-50 and missile.Ym <= Bloc_3.Y3+50 and missile.Xm >= Bloc_3.X3-75 and missile.Xm <= Bloc_3.X3+75 :
+        CanvaJeu.delete(missile_balle)
+ 
 ## Fonction de déplacement pour le missile
 def creation_missile():
     """ déplacement du missile """
-    missile = class_missile(Mafenetre,donnee_vaisseau.Xv,donnee_vaisseau.Yv)
-    missile_balle = CanvaJeu.create_oval(donnee_vaisseau.Xv-missile.RAYON_m, donnee_vaisseau.Yv-missile.RAYON_m, donnee_vaisseau.Xv+missile.RAYON_m, donnee_vaisseau.Yv+missile.RAYON_m, width=1, outline='black', fill='white')
+    missile = class_missile(Mafenetre,vaisseau.Xv,vaisseau.Yv)
+    missile_balle = CanvaJeu.create_oval(vaisseau.Xv-missile.RAYON_m, vaisseau.Yv-missile.RAYON_m, vaisseau.Xv+missile.RAYON_m, vaisseau.Yv+missile.RAYON_m, width=1, outline='black', fill='white')
     def deplacement_missile():
         # Dispararition du missile si hors de le fenêtre de jeu
         if missile.Ym - missile.RAYON_m + missile.DY_m < 0:
@@ -72,7 +88,7 @@ def creation_missile():
         else :
             missile.Ym = missile.Ym - missile.DY_m
             CanvaJeu.coords(missile_balle,missile.Xm-missile.RAYON_m, missile.Ym-missile.RAYON_m, missile.Xm+missile.RAYON_m, missile.Ym+missile.RAYON_m)
-            if not disparition(donnee_allien,missile_balle,missile):
+            if not disparition(allien,missile_balle,missile):
                 Mafenetre.after(20,deplacement_missile)
     deplacement_missile()
 
@@ -81,16 +97,26 @@ def Clavier(event):
     """ Gestion de l'évènement Appui sur une touche du clavier"""
     touche = event.keysym
     # déplacement vers la droite via la flèche de droite
-    if touche == 'Right' and donnee_vaisseau.Xv < LARGEUR-20 :
-        donnee_vaisseau.Xv += 30
+    if touche == 'Right' and vaisseau.Xv < LARGEUR-20 :
+        vaisseau.Xv += 30
     # déplacement vers la gauche vie la flèche de gauche
-    if touche == 'Left' and donnee_vaisseau.Xv > 20:
-        donnee_vaisseau.Xv -= 30
+    if touche == 'Left' and vaisseau.Xv > 20:
+        vaisseau.Xv -= 30
     # lancement d'un missile via l'espace
     if touche == 'space' :
         creation_missile()
     # On dessine le vaisseau à sa nouvelle position
-    CanvaJeu.coords(vaisseau,donnee_vaisseau.Xv-15,donnee_vaisseau.Yv-15,donnee_vaisseau.Xv+15,donnee_vaisseau.Yv+15)
+    CanvaJeu.coords(vaisseau_obj,vaisseau.Xv-15,vaisseau.Yv-15,vaisseau.Xv+15,vaisseau.Yv+15)
+
+
+def fin_de_partie():
+    """ Fonction qui met fin à la partie """
+    if allien.Ya + allien.RAYON_a == vaisseau.Xv :
+        CanvaJeu.delete(vaisseau_obj)
+        CanvaJeu.delete(allien_obj)
+fin_de_partie()
+
+## Tout ce qui est lié à l'interface graphique ##
     
 # Création d'un widget Menu
 menubar = Menu(Mafenetre)
