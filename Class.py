@@ -9,27 +9,23 @@ class jeu_Spaceinvaders:
         self.Vie = 3
 
 class class_allien:
-    def __init__(self, Mafenetre):
+    def __init__(self,X):
         # Stock des infos sur l'allien
-        self.Xa1 = 200
-        self.Xa2 = 420
-        self.Xa3 = 640
+        self.Xa = X
         self.Ya = 100
         self.vitesse_a = 4
         self.n = 0
         self.DX_a = self.vitesse_a
         self.RAYON_a = 20
         
-
 class class_vaisseau:
-    def __init__(self, Mafenetre):
+    def __init__(self):
         # Stock des infos sur le vaisseau
         self.Xv = 500
         self.Yv = 580
 
-
 class class_missile:
-    def __init__(self, Mafenetre,X,Y):
+    def __init__(self,X,Y):
         # Stock des infos sur le missile
         self.Xm = X
         self.Ym = Y
@@ -38,12 +34,8 @@ class class_missile:
         self.RAYON_m = 10
 
 class class_bloc:
-    def __init__(self,Mafenetre):
-        # Stock des infos sur le bloc 1, bloc 2 et bloc 3
-        self.X1 = 200
-        self.Y1 = 400
-        self.X2 = 500
-        self.Y2 = 400
-        self.X3 = 800
-        self.Y3 = 400
+    def __init__(self,X,Y):
+        # Stock des infos sur le bloc
+        self.Xb = X
+        self.Yb = Y
 
