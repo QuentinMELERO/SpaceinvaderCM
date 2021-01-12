@@ -128,15 +128,19 @@ def creation_missile():
 
 ## Fonction de déplacement missiles alliens
 def creation_missile_allien():
-    missile_allien = class_missile(allien1.Xa,allien1.Ya)
-    missile_balle_allien = CanvaJeu.create_oval(allien1.Xa-missile_allien.RAYON_m, allien1.Ya-missile_allien.RAYON_m, allien1.Xa+missile_allien.RAYON_m, allien1.Ya+missile_allien.RAYON_m, width=1, outline='black', fill='white')
-    def deplacement_missile_allien():
+    missile_allien1 = class_missile(allien1.Xa,allien1.Ya)
+    missile_balle_allien1 = CanvaJeu.create_oval(allien1.Xa-missile_allien1.RAYON_m, allien1.Ya-missile_allien1.RAYON_m, allien1.Xa+missile_allien1.RAYON_m, allien1.Ya+missile_allien1.RAYON_m, width=1, outline='black', fill='white')
+    missile_allien2 = class_missile(allien2.Xa,allien2.Ya)
+    missile_balle_allien2 = CanvaJeu.create_oval(allien2.Xa-missile_allien2.RAYON_m, allien2.Ya-missile_allien2.RAYON_m, allien1.Xa+missile_allien2.RAYON_m, allien1.Ya+missile_allien2.RAYON_m, width=1, outline='black', fill='white')
+    missile_allien3 = class_missile(allien3.Xa,allien1.Ya)
+    missile_balle_allien3 = CanvaJeu.create_oval(allien3.Xa-missile_allien3.RAYON_m, allien3.Ya-missile_allien3.RAYON_m, allien3.Xa+missile_allien3.RAYON_m, allien3.Ya+missile_allien3.RAYON_m, width=1, outline='black', fill='white')
+    def deplacement_missile_allien(missile_allien,missile_balle_allien):
         # Dispararition du missile si hors de le fenêtre de jeu
-        if missile_allien.Ym + missile_allien.RAYON_m - missile_allien.DY_m > 600 :
-            CanvaJeu.delete(missile_allien)
+        if missile_allien.Ym + missile_allien1.RAYON_m - missile_allien1.DY_m > 600 :
+            CanvaJeu.delete(missile_allien1)
         else :
-            missile_allien.Ym = missile_allien.Ym + missile_allien.DY_m
-            CanvaJeu.coords(missile_balle_allien,missile_allien.Xm-missile_allien.RAYON_m, missile_allien.Ym-missile_allien.RAYON_m, missile_allien.Xm+missile_allien.RAYON_m, missile_allien.Ym+missile_allien.RAYON_m)
+            missile_allien1.Ym = missile_allien1.Ym + missile_allien1.DY_m
+            CanvaJeu.coords(missile_balle_allien1,missile_allien1.Xm-missile_allien1.RAYON_m, missile_allien1.Ym-missile_allien1.RAYON_m, missile_allien1.Xm+missile_allien1.RAYON_m, missile_allien1.Ym+missile_allien1.RAYON_m)
             if not disparition_missille_allien(vaisseau,missile_balle_allien,missile_allien):
                 Mafenetre.after(20,deplacement_missile_allien)
     deplacement_missile_allien()
