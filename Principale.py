@@ -95,6 +95,21 @@ def disparition(allien1,missile_balle,missile):
     if missile.Ym >= bloc3.Yb-50 and missile.Ym <= bloc3.Yb+50 and missile.Xm >= bloc3.Xb-75 and missile.Xm <= bloc3.Xb+75 :
         CanvaJeu.delete(missile_balle)
 
+## Fonction qui fait disparaitre le missile des alliens
+def disparition_missille_allien(vaisseau,missile_balle_allien,missile_allien):
+    """ Fonction qui s'occupe de la disparition du missile de l'allien et du vaisseau lors d'une collision """
+    if  missile_allien.Ym >= vaisseau.Yv - 15 and missile_allien.Ym <= vaisseau.Yv + 15 and missile_allien.Xm >= vaisseau.Xv - 15 and missile_allien.Xm <= vaisseau.Xv + 15 : 
+        CanvaJeu.delete(missile_balle_allien)
+        # On perd une vie
+        donnee_jeu.Vie = donnee_jeu.Vie - 1
+    if missile_allien.Ym >= bloc1.Yb-50 and missile_allien.Ym <= bloc1.Yb+50 and missile_allien.Xm >= bloc1.Xb-75 and missile_allien.Xm <= bloc1.Xb+75 :
+        CanvaJeu.delete(missile_balle_allien)
+    if missile_allien.Ym >= bloc2.Yb-50 and missile_allien.Ym <= bloc2.Yb+50 and missile_allien.Xm >= bloc2.Xb-75 and missile_allien.Xm <= bloc2.Xb+75 :
+        CanvaJeu.delete(missile_balle_allien)
+    if missile_allien.Ym >= bloc3.Yb-50 and missile_allien.Ym <= bloc3.Yb+50 and missile_allien.Xm >= bloc3.Xb-75 and missile_allien.Xm <= bloc3.Xb+75 :
+        CanvaJeu.delete(missile_balle_allien)
+ 
+
 ## Fonction de déplacement pour le missile
 def creation_missile():
     """ déplacement du missile """
@@ -110,6 +125,23 @@ def creation_missile():
             if not disparition(allien1,missile_balle,missile):
                 Mafenetre.after(20,deplacement_missile)
     deplacement_missile()
+
+## Fonction de déplacement missiles alliens
+def creation_missile_allien():
+    missile_allien = class_missile(allien1.Xa,allien1.Ya)
+    missile_balle_allien = CanvaJeu.create_oval(allien1.Xa-missile_allien.RAYON_m, allien1.Ya-missile_allien.RAYON_m, allien1.Xa+missile_allien.RAYON_m, allien1.Ya+missile_allien.RAYON_m, width=1, outline='black', fill='white')
+    def deplacement_missile_allien():
+        # Dispararition du missile si hors de le fenêtre de jeu
+        if missile_allien.Ym + missile_allien.RAYON_m - missile_allien.DY_m > 600 :
+            CanvaJeu.delete(missile_allien)
+        else :
+            missile_allien.Ym = missile_allien.Ym + missile_allien.DY_m
+            CanvaJeu.coords(missile_balle_allien,missile_allien.Xm-missile_allien.RAYON_m, missile_allien.Ym-missile_allien.RAYON_m, missile_allien.Xm+missile_allien.RAYON_m, missile_allien.Ym+missile_allien.RAYON_m)
+            if not disparition_missille_allien(vaisseau,missile_balle_allien,missile_allien):
+                Mafenetre.after(20,deplacement_missile_allien)
+    deplacement_missile_allien()
+    Mafenetre.after(900,creation_missile_allien)
+creation_missile_allien()
 
 ## Fonction de déplacement liée aux touches du clavier
 def Clavier(event):
