@@ -35,20 +35,13 @@ class class_missile:
         self.DY_m = self.vitesse_m
         self.RAYON_m = 10
 
-class class_bloc1:
+class class_bloc:
     def __init__(self,Mafenetre):
-        # Stock des infos sur le bloc 1
+        # Stock des infos sur le bloc 1, bloc 2 et bloc 3
         self.X1 = 200
         self.Y1 = 400
-
-class class_bloc2:
-    def __init__(self,Mafenetre):
-        # Stock des infos sur le bloc 2
         self.X2 = 500
         self.Y2 = 400
-
-class class_bloc3:
-    def __init__(self,Mafenetre):
-        # Stock des infos sur le bloc 3
         self.X3 = 800
         self.Y3 = 400
+

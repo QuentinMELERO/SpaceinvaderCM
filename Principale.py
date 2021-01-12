@@ -1,7 +1,7 @@
 ## Importation des bibliothèques nécessaires ##
 from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas
 import math
-from Class import jeu_Spaceinvaders, class_allien, class_missile, class_vaisseau, class_bloc1, class_bloc2, class_bloc3
+from Class import jeu_Spaceinvaders, class_allien, class_missile, class_vaisseau, class_bloc
 
 ## Mise en place de l'interface graphique principale ##
 Mafenetre = Tk()
@@ -49,18 +49,16 @@ def deplacement_allien(allien):
 Mafenetre.after(0,lambda x=allien : deplacement_allien(x))
 
 ## Création des blocks
-Bloc_1 = class_bloc1(Mafenetre)
-Bloc_2 = class_bloc2(Mafenetre)
-Bloc_3 = class_bloc3(Mafenetre)
+Bloc = class_bloc(Mafenetre)
 
 # Bloc 1
-CanvaJeu.create_rectangle(Bloc_1.X1-75, Bloc_1.Y1-50, Bloc_1.X1+75, Bloc_1.Y1+50, width=1, outline='black', fill='red')
+CanvaJeu.create_rectangle(Bloc.X1-75, Bloc.Y1-50, Bloc.X1+75, Bloc.Y1+50, width=1, outline='black', fill='red')
 
 # Bloc 2
-CanvaJeu.create_rectangle(Bloc_2.X2-75, Bloc_2.Y2-50, Bloc_2.X2+75, Bloc_2.Y2+50, width=1, outline='black', fill='red')
+CanvaJeu.create_rectangle(Bloc.X2-75, Bloc.Y2-50, Bloc.X2+75, Bloc.Y2+50, width=1, outline='black', fill='red')
 
 # Bloc 3
-CanvaJeu.create_rectangle(Bloc_3.X3-75, Bloc_3.Y3-50, Bloc_3.X3+75, Bloc_3.Y3+50, width=1, outline='black', fill='red')
+CanvaJeu.create_rectangle(Bloc.X3-75, Bloc.Y3-50, Bloc.X3+75, Bloc.Y3+50, width=1, outline='black', fill='red')
 
 
 ## Fonction qui fait disparaitre l'allien et le missile lors d'une collison
@@ -69,11 +67,11 @@ def disparition(allien,missile_balle,missile):
     if  missile.Ym >= allien.Ya - allien.RAYON_a and missile.Ym <= allien.Ya + allien.RAYON_a and missile.Xm >= allien.Xa - allien.RAYON_a and missile.Xm <= allien.Xa + allien.RAYON_a  : 
         CanvaJeu.delete(missile_balle)
         CanvaJeu.delete(allien_obj)
-    if missile.Ym >= Bloc_1.Y1-50 and missile.Ym <= Bloc_1.Y1+50 and missile.Xm >= Bloc_1.X1-75 and missile.Xm <= Bloc_1.X1+75 :
+    if missile.Ym >= Bloc.Y1-50 and missile.Ym <= Bloc.Y1+50 and missile.Xm >= Bloc.X1-75 and missile.Xm <= Bloc.X1+75 :
         CanvaJeu.delete(missile_balle)
-    if missile.Ym >= Bloc_2.Y2-50 and missile.Ym <= Bloc_2.Y2+50 and missile.Xm >= Bloc_2.X2-75 and missile.Xm <= Bloc_2.X2+75 :
+    if missile.Ym >= Bloc.Y2-50 and missile.Ym <= Bloc.Y2+50 and missile.Xm >= Bloc.X2-75 and missile.Xm <= Bloc.X2+75 :
         CanvaJeu.delete(missile_balle)
-    if missile.Ym >= Bloc_3.Y3-50 and missile.Ym <= Bloc_3.Y3+50 and missile.Xm >= Bloc_3.X3-75 and missile.Xm <= Bloc_3.X3+75 :
+    if missile.Ym >= Bloc.Y3-50 and missile.Ym <= Bloc.Y3+50 and missile.Xm >= Bloc.X3-75 and missile.Xm <= Bloc.X3+75 :
         CanvaJeu.delete(missile_balle)
  
 ## Fonction de déplacement pour le missile
