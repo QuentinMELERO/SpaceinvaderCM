@@ -130,7 +130,7 @@ def Clavier(event):
 
 def fin_de_partie():
     """ Fonction qui met fin à la partie """
-    if allien1.Ya + allien1.RAYON_a == vaisseau.Xv :
+    if allien1.Ya + allien1.RAYON_a == vaisseau.Xv or allien2.Ya + allien2.RAYON_a == vaisseau.Xv or allien3.Ya + allien3.RAYON_a == vaisseau.Xv  :
         CanvaJeu.delete(vaisseau_obj)
         CanvaJeu.delete(allien1_obj)
         fin_de_partie()

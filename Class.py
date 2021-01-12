@@ -1,7 +1,5 @@
 ## Page pour gérer les classes et toutes les variables de mes fonctions du programme Principale.py ##
 
-import math
-
 class jeu_Spaceinvaders:
     def __init__(self, Mafenetre):
         # Stock des données du jeu SpaceInvaders
