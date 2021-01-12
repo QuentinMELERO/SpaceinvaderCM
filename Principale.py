@@ -82,18 +82,30 @@ def disparition(allien1,missile_balle,missile):
     if  missile.Ym >= allien1.Ya - allien1.RAYON_a and missile.Ym <= allien1.Ya + allien1.RAYON_a and missile.Xm >= allien1.Xa - allien1.RAYON_a and missile.Xm <= allien1.Xa + allien1.RAYON_a  : 
         CanvaJeu.delete(missile_balle)
         CanvaJeu.delete(allien1_obj)
+        return True
     if  missile.Ym >= allien2.Ya - allien2.RAYON_a and missile.Ym <= allien2.Ya + allien2.RAYON_a and missile.Xm >= allien2.Xa - allien2.RAYON_a and missile.Xm <= allien2.Xa + allien2.RAYON_a  : 
         CanvaJeu.delete(missile_balle)
         CanvaJeu.delete(allien2_obj)
+        return True
     if  missile.Ym >= allien3.Ya - allien3.RAYON_a and missile.Ym <= allien3.Ya + allien3.RAYON_a and missile.Xm >= allien3.Xa - allien3.RAYON_a and missile.Xm <= allien3.Xa + allien3.RAYON_a  : 
         CanvaJeu.delete(missile_balle)
         CanvaJeu.delete(allien3_obj)
+        return True
     if missile.Ym >= bloc1.Yb-50 and missile.Ym <= bloc1.Yb+50 and missile.Xm >= bloc1.Xb-75 and missile.Xm <= bloc1.Xb+75 :
         CanvaJeu.delete(missile_balle)
+        return True
     if missile.Ym >= bloc2.Yb-50 and missile.Ym <= bloc2.Yb+50 and missile.Xm >= bloc2.Xb-75 and missile.Xm <= bloc2.Xb+75 :
         CanvaJeu.delete(missile_balle)
+        return True
     if missile.Ym >= bloc3.Yb-50 and missile.Ym <= bloc3.Yb+50 and missile.Xm >= bloc3.Xb-75 and missile.Xm <= bloc3.Xb+75 :
         CanvaJeu.delete(missile_balle)
+        return True
+    return False
+
+# Fonction pour afficher le nombre de vies du joueur
+def NbVie(donnee_jeu):
+    NbVie = Label(donnee_jeu.Mafenetre, text='Vies restantes : ' + str(donnee_jeu.Vie), bg='white',fg='black', font=100)
+    NbVie.place(x=700, y=5, width=300, height=30)
 
 ## Fonction qui fait disparaitre le missile des alliens
 def disparition_missille_allien(vaisseau,missile_balle_allien,missile_allien):
@@ -102,14 +114,20 @@ def disparition_missille_allien(vaisseau,missile_balle_allien,missile_allien):
         CanvaJeu.delete(missile_balle_allien)
         # On perd une vie
         donnee_jeu.Vie = donnee_jeu.Vie - 1
+        NbVie(donnee_jeu)
+        return True
     if missile_allien.Ym >= bloc1.Yb-50 and missile_allien.Ym <= bloc1.Yb+50 and missile_allien.Xm >= bloc1.Xb-75 and missile_allien.Xm <= bloc1.Xb+75 :
         CanvaJeu.delete(missile_balle_allien)
+        return True
     if missile_allien.Ym >= bloc2.Yb-50 and missile_allien.Ym <= bloc2.Yb+50 and missile_allien.Xm >= bloc2.Xb-75 and missile_allien.Xm <= bloc2.Xb+75 :
         CanvaJeu.delete(missile_balle_allien)
+        return True
     if missile_allien.Ym >= bloc3.Yb-50 and missile_allien.Ym <= bloc3.Yb+50 and missile_allien.Xm >= bloc3.Xb-75 and missile_allien.Xm <= bloc3.Xb+75 :
         CanvaJeu.delete(missile_balle_allien)
+        return True
+    return False
+    
  
-
 ## Fonction de déplacement pour le missile
 def creation_missile():
     """ déplacement du missile """
@@ -189,14 +207,7 @@ Score = Label(Mafenetre, text='Score : Score du joueur', bg='white',fg='black', 
 Score.place(x=5, y=5, width=250, height=30)
 
 # Création d'un widget Label (Pour afficher le nombre de vie du joueur)
-#Nbvie = Label(Mafenetre, text='Vie : Nombre de vie du joueur ', bg='white',fg='black', font=100)
-#Nbvie.place(x=700, y=5, width=300, height=30)
 
-# Fonction pour afficher le nombre de vies du joueur
-
-def NbVie(donnee_jeu):
-    NbVie = Label(donnee_jeu.Mafenetre, text='Vies restantes : ' + str(donnee_jeu.Vie), bg='white',fg='black', font=100)
-    NbVie.place(x=700, y=5, width=300, height=30)
 NbVie(donnee_jeu)
 
 # Création d'un widget Button (boutton quitter)
