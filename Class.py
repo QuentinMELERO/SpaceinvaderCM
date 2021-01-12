@@ -11,7 +11,9 @@ class jeu_Spaceinvaders:
 class class_allien:
     def __init__(self, Mafenetre):
         # Stock des infos sur l'allien
-        self.Xa = 500
+        self.Xa1 = 200
+        self.Xa2 = 420
+        self.Xa3 = 640
         self.Ya = 100
         self.vitesse_a = 4
         self.n = 0

@@ -16,8 +16,10 @@ HAUTEUR = 600
 LARGEUR = 1000
 CanvaJeu = Canvas(Mafenetre, bg='black')
 
-# Création de l'allien
-allien_obj = CanvaJeu.create_oval(allien.Xa-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa+allien.RAYON_a, allien.Ya+allien.RAYON_a, width=1, outline='black', fill='red')
+# Création des alliens
+allien1_obj = CanvaJeu.create_oval(allien.Xa1-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa1+allien.RAYON_a, allien.Ya+allien.RAYON_a, width=1, outline='black', fill='red')
+allien2_obj = CanvaJeu.create_oval(allien.Xa2-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa2+allien.RAYON_a, allien.Ya+allien.RAYON_a, width=1, outline='black', fill='red')
+allien3_obj = CanvaJeu.create_oval(allien.Xa3-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa3+allien.RAYON_a, allien.Ya+allien.RAYON_a, width=1, outline='black', fill='red')
 
 # Création du vaisseau
 vaisseau_obj = CanvaJeu.create_rectangle(vaisseau.Xv-15, vaisseau.Yv-15, vaisseau.Xv+15, vaisseau.Yv+15, width=1, outline='black', fill='red')
@@ -31,32 +33,40 @@ CanvaJeu.place(x=0, y=100, width=LARGEUR, height=HAUTEUR)
 def deplacement_allien(allien):
     """ Fonction qui gère le déplacement de l'allien """
     # Rebond à droite
-    if allien.Xa + allien.RAYON_a + allien.DX_a > LARGEUR:
+    if allien.Xa3 + allien.RAYON_a + allien.DX_a > LARGEUR:
         allien.DX_a = -allien.DX_a
         allien.n += 1
     # Rebond à gauche
-    if allien.Xa - allien.RAYON_a + allien.DX_a < 0:
-        allien.Xa = 2*allien.RAYON_a-allien.Xa
+    if allien.Xa1 - allien.RAYON_a + allien.DX_a < 0:
         allien.DX_a = -allien.DX_a
         allien.n += 1
+    # Descend d'un demi-rayon apres un aller-retour
     if allien.n == 2:
         allien.Ya += allien.RAYON_a
         allien.n = 0
-    allien.Xa = allien.Xa + allien.DX_a
-    CanvaJeu.coords(allien_obj,allien.Xa-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa+allien.RAYON_a, allien.Ya+allien.RAYON_a)
+    allien.Xa1 = allien.Xa1 + allien.DX_a
+    allien.Xa2 = allien.Xa2 + allien.DX_a
+    allien.Xa3 = allien.Xa3 + allien.DX_a
+    CanvaJeu.coords(allien1_obj,allien.Xa1-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa1+allien.RAYON_a, allien.Ya+allien.RAYON_a)
+    CanvaJeu.coords(allien2_obj,allien.Xa2-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa2+allien.RAYON_a, allien.Ya+allien.RAYON_a)
+    CanvaJeu.coords(allien3_obj,allien.Xa3-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa3+allien.RAYON_a, allien.Ya+allien.RAYON_a)
+    #CanvaJeu.coords(missile1,Xa1-RAYON_m, Ya-RAYON_m, Xa1+RAYON_m, Ya+RAYON_m)
+    #CanvaJeu.coords(missile2,Xa2-RAYON_m, Ya-RAYON_m, Xa2+RAYON_m, Ya+RAYON_m)
+    #CanvaJeu.coords(missile3,Xa3-RAYON_m, Ya-RAYON_m, Xa3+RAYON_m, Ya+RAYON_m)
+    #Mafenetre.after(20,deplacement_allien)
+    CanvaJeu.coords(allien1_obj,allien.Xa1-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa1+allien.RAYON_a, allien.Ya+allien.RAYON_a)
+    CanvaJeu.coords(allien2_obj,allien.Xa2-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa2+allien.RAYON_a, allien.Ya+allien.RAYON_a)
+    CanvaJeu.coords(allien3_obj,allien.Xa3-allien.RAYON_a, allien.Ya-allien.RAYON_a, allien.Xa3+allien.RAYON_a, allien.Ya+allien.RAYON_a)
     Mafenetre.after(20,lambda x=allien : deplacement_allien(x))
 
 Mafenetre.after(0,lambda x=allien : deplacement_allien(x))
 
 ## Création des blocks
 Bloc = class_bloc(Mafenetre)
-
 # Bloc 1
 CanvaJeu.create_rectangle(Bloc.X1-75, Bloc.Y1-50, Bloc.X1+75, Bloc.Y1+50, width=1, outline='black', fill='red')
-
 # Bloc 2
 CanvaJeu.create_rectangle(Bloc.X2-75, Bloc.Y2-50, Bloc.X2+75, Bloc.Y2+50, width=1, outline='black', fill='red')
-
 # Bloc 3
 CanvaJeu.create_rectangle(Bloc.X3-75, Bloc.Y3-50, Bloc.X3+75, Bloc.Y3+50, width=1, outline='black', fill='red')
 
@@ -64,15 +74,22 @@ CanvaJeu.create_rectangle(Bloc.X3-75, Bloc.Y3-50, Bloc.X3+75, Bloc.Y3+50, width=
 ## Fonction qui fait disparaitre l'allien et le missile lors d'une collison
 def disparition(allien,missile_balle,missile):
     """ Fonction qui s'occupe de la disparition de l'allien et du missile lors d'une colllision """
-    if  missile.Ym >= allien.Ya - allien.RAYON_a and missile.Ym <= allien.Ya + allien.RAYON_a and missile.Xm >= allien.Xa - allien.RAYON_a and missile.Xm <= allien.Xa + allien.RAYON_a  : 
+    if  missile.Ym >= allien.Ya - allien.RAYON_a and missile.Ym <= allien.Ya + allien.RAYON_a and missile.Xm >= allien.Xa1 - allien.RAYON_a and missile.Xm <= allien.Xa1 + allien.RAYON_a  : 
         CanvaJeu.delete(missile_balle)
-        CanvaJeu.delete(allien_obj)
+        CanvaJeu.delete(allien1_obj)
+    if  missile.Ym >= allien.Ya - allien.RAYON_a and missile.Ym <= allien.Ya + allien.RAYON_a and missile.Xm >= allien.Xa2 - allien.RAYON_a and missile.Xm <= allien.Xa2 + allien.RAYON_a  : 
+        CanvaJeu.delete(missile_balle)
+        CanvaJeu.delete(allien2_obj)
+    if  missile.Ym >= allien.Ya - allien.RAYON_a and missile.Ym <= allien.Ya + allien.RAYON_a and missile.Xm >= allien.Xa3 - allien.RAYON_a and missile.Xm <= allien.Xa3 + allien.RAYON_a  : 
+        CanvaJeu.delete(missile_balle)
+        CanvaJeu.delete(allien3_obj)
     if missile.Ym >= Bloc.Y1-50 and missile.Ym <= Bloc.Y1+50 and missile.Xm >= Bloc.X1-75 and missile.Xm <= Bloc.X1+75 :
         CanvaJeu.delete(missile_balle)
     if missile.Ym >= Bloc.Y2-50 and missile.Ym <= Bloc.Y2+50 and missile.Xm >= Bloc.X2-75 and missile.Xm <= Bloc.X2+75 :
         CanvaJeu.delete(missile_balle)
     if missile.Ym >= Bloc.Y3-50 and missile.Ym <= Bloc.Y3+50 and missile.Xm >= Bloc.X3-75 and missile.Xm <= Bloc.X3+75 :
         CanvaJeu.delete(missile_balle)
+    
  
 ## Fonction de déplacement pour le missile
 def creation_missile():
@@ -111,7 +128,7 @@ def fin_de_partie():
     """ Fonction qui met fin à la partie """
     if allien.Ya + allien.RAYON_a == vaisseau.Xv :
         CanvaJeu.delete(vaisseau_obj)
-        CanvaJeu.delete(allien_obj)
+        CanvaJeu.delete(allien1_obj)
 fin_de_partie()
 
 ## Tout ce qui est lié à l'interface graphique ##
