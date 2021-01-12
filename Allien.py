@@ -14,15 +14,35 @@ HAUTEUR = 600
 LARGEUR = 1000
 CanvaJeu = Canvas(Mafenetre, bg='black')
 
-# Informations pour l'allien
-Xa = 500
+# Informations pour l'allien 1
+Xa1 = 200
 Ya = 100
 n = 0
 vitesse = 5
 angle = 0
 DX = vitesse*math.cos(angle)
 RAYON_a = 20 # Rayon de l'allien
-allien = CanvaJeu.create_oval(Xa-RAYON_a, Ya-RAYON_a, Xa+RAYON_a, Ya+RAYON_a, width=1, outline='black', fill='red')
+allien1 = CanvaJeu.create_oval(Xa1-RAYON_a, Ya-RAYON_a, Xa1+RAYON_a, Ya+RAYON_a, width=1, outline='black', fill='red')
+
+# Informations pour l'allien 2
+Xa2 = 420
+Ya = 100
+n = 0
+vitesse = 5
+angle = 0
+DX = vitesse*math.cos(angle)
+RAYON_a = 20 # Rayon de l'allien
+allien2 = CanvaJeu.create_oval(Xa2-RAYON_a, Ya-RAYON_a, Xa2+RAYON_a, Ya+RAYON_a, width=1, outline='black', fill='red')
+
+# Informations pour l'allien 3
+Xa3 = 640
+Ya = 100
+n = 0
+vitesse = 5
+angle = 0
+DX = vitesse*math.cos(angle)
+RAYON_a = 20 # Rayon de l'allien
+allien3 = CanvaJeu.create_oval(Xa3-RAYON_a, Ya-RAYON_a, Xa3+RAYON_a, Ya+RAYON_a, width=1, outline='black', fill='red')
 
 # Informations pour le vaisseau
 PosX = 500
@@ -41,18 +61,41 @@ DY = vitesse_m*math.cos(angle)
 RAYON_m = 10 # Rayon du missile
 missile = CanvaJeu.create_oval(Xm-RAYON_m, Ym-RAYON_m, Xm+RAYON_m, Ym+RAYON_m, width=1, outline='black', fill='white')
 
+# Informations pour le missile allien 1
+Yma = Ya
+vitesse_m = 10
+angle = 0
+DY = vitesse_m*math.cos(angle)
+RAYON_m = 10 # Rayon du missile
+missile1 = CanvaJeu.create_oval(Xa1-RAYON_m, Ya-RAYON_m, Xa1+RAYON_m, Ya+RAYON_m, width=1, outline='black', fill='white')
+
+# Informations pour le missile allien 2
+Yma = Ya
+vitesse_m = 10
+angle = 0
+DY = vitesse_m*math.cos(angle)
+RAYON_m = 10 # Rayon du missile
+missile2 = CanvaJeu.create_oval(Xa2-RAYON_m, Ya-RAYON_m, Xa2+RAYON_m, Ya+RAYON_m, width=1, outline='black', fill='white')
+
+# Informations pour le missile allien 3
+Yma = Ya
+vitesse_m = 10
+angle = 0
+DY = vitesse_m*math.cos(angle)
+RAYON_m = 10 # Rayon du missile
+missile3 = CanvaJeu.create_oval(Xa3-RAYON_m, Ya-RAYON_m, Xa3+RAYON_m, Ya+RAYON_m, width=1, outline='black', fill='white')
+
+
 ## Fonction de déplacement pour l'allien
 def deplacement_allien():
     """ déplacement de l'allien """
-    global Xa,DX,RAYON_a,LARGEUR,HAUTEUR,n,Ya
+    global Xa1, Xa2, Xa3,DX,RAYON_a,LARGEUR,HAUTEUR,n,Ya
     # Rebond à droite
-    if Xa + RAYON_a + DX > LARGEUR:
-        Xa = 2*(LARGEUR-RAYON_a)-Xa
+    if Xa3 + RAYON_a + DX > LARGEUR:
         DX = -DX
         n += 1
     # Rebond à gauche
-    if Xa - RAYON_a + DX < 0:
-        Xa = 2*RAYON_a-Xa
+    if Xa1 - RAYON_a + DX < 0:
         DX = -DX
         n += 1
     
@@ -60,8 +103,15 @@ def deplacement_allien():
         Ya += RAYON_a
         n = 0
 
-    Xa = Xa + DX
-    CanvaJeu.coords(allien,Xa-RAYON_a, Ya-RAYON_a, Xa+RAYON_a, Ya+RAYON_a)
+    Xa1 = Xa1 + DX
+    Xa2 = Xa2 + DX
+    Xa3 = Xa3 + DX
+    CanvaJeu.coords(allien1,Xa1-RAYON_a, Ya-RAYON_a, Xa1+RAYON_a, Ya+RAYON_a)
+    CanvaJeu.coords(allien2,Xa2-RAYON_a, Ya-RAYON_a, Xa2+RAYON_a, Ya+RAYON_a)
+    CanvaJeu.coords(allien3,Xa3-RAYON_a, Ya-RAYON_a, Xa3+RAYON_a, Ya+RAYON_a)
+    CanvaJeu.coords(missile1,Xa1-RAYON_m, Ya-RAYON_m, Xa1+RAYON_m, Ya+RAYON_m)
+    CanvaJeu.coords(missile2,Xa2-RAYON_m, Ya-RAYON_m, Xa2+RAYON_m, Ya+RAYON_m)
+    CanvaJeu.coords(missile3,Xa3-RAYON_m, Ya-RAYON_m, Xa3+RAYON_m, Ya+RAYON_m)
     Mafenetre.after(20,deplacement_allien)
 
 deplacement_allien()
@@ -76,7 +126,28 @@ def deplacement_missile():
     Ym = Ym - DY
     
     CanvaJeu.coords(missile,Xm-RAYON_m, Ym-RAYON_m, Xm+RAYON_m, Ym+RAYON_m)
+    disparition()
     Mafenetre.after(20,deplacement_missile)
+
+## Fonction de déplacement pour les missiles des aliens
+def deplacement_missile_alien():
+    """ déplacement des missiles """
+    global Yma,DY,RAYON_m
+    # Dispararition des missiles si hors de le fenêtre de jeu
+    if Yma - RAYON_m + DY < 0:
+        CanvaJeu.delete(missile1)
+        CanvaJeu.delete(missile2)
+        CanvaJeu.delete(missile3)
+    Yma = Yma + DY
+    
+    CanvaJeu.coords(missile1,Xa1-RAYON_m, Yma-RAYON_m, Xa1+RAYON_m, Yma+RAYON_m)
+    CanvaJeu.coords(missile2,Xa2-RAYON_m, Yma-RAYON_m, Xa2+RAYON_m, Yma+RAYON_m)
+    CanvaJeu.coords(missile3,Xa3-RAYON_m, Yma-RAYON_m, Xa3+RAYON_m, Yma+RAYON_m)
+    #disparition()
+    Mafenetre.after(20,deplacement_missile_alien)
+
+deplacement_missile_alien()
+
 
 ## Fonction de déplacement pour le vaisseau
 
@@ -103,9 +174,20 @@ def Clavier(event):
     
 def disparition():
     """ disparition de l'allien et du missile lors d'une colllision """
-    if Ym >= Ya + RAYON_a and Ym <= Ya - RAYON_a and Xm >= Xa - RAYON_a and Xm <= Xa + RAYON_a : 
+    if Ym >= Ya - RAYON_a and Ym <= Ya + RAYON_a and Xm >= Xa1 - RAYON_a and Xm <= Xa1 + RAYON_a : 
         CanvaJeu.delete(missile)
-        CanvaJeu.delete(allien)
+        CanvaJeu.delete(missile1)
+        CanvaJeu.delete(allien1)
+    
+    if Ym >= Ya - RAYON_a and Ym <= Ya + RAYON_a and Xm >= Xa2 - RAYON_a and Xm <= Xa2 + RAYON_a : 
+        CanvaJeu.delete(missile)
+        CanvaJeu.delete(missile2)
+        CanvaJeu.delete(allien2)
+    
+    if Ym >= Ya - RAYON_a and Ym <= Ya + RAYON_a and Xm >= Xa3 - RAYON_a and Xm <= Xa3 + RAYON_a : 
+        CanvaJeu.delete(missile)
+        CanvaJeu.delete(missile3)
+        CanvaJeu.delete(allien3)
 
 disparition()
     
