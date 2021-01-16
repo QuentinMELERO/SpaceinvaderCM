@@ -6,7 +6,7 @@ class jeu_Spaceinvaders:
         self.Mafenetre = Mafenetre
         self.Vie = 3
 
-class class_allien:
+class class_alien:
     def __init__(self,X):
         # Stock des infos sur l'allien
         self.Xa = X
@@ -15,6 +15,7 @@ class class_allien:
         self.n = 0
         self.DX_a = self.vitesse_a
         self.RAYON_a = 20
+        self.alive = True
         
 class class_vaisseau:
     def __init__(self):
