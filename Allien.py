@@ -1,6 +1,7 @@
 ## Importation des bibliothèques nécessaires
 
-from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas
+from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas, messagebox
+
 import math
 
 ## Mise en place de l'interface graphique principale
@@ -190,13 +191,15 @@ def disparition():
         CanvaJeu.delete(allien3)
 
 disparition()
-    
+
+def apropos():
+    messagebox.showinfo(title='A propos', message='Jeu classique du SpaceInvaders réalisé par Adrien Corsetti et Quentin Melero')
 
 # Création d'un widget Menu
 menubar = Menu(Mafenetre)
 menuoption = Menu(menubar,tearoff =0)
 menuoption.add_command(label="Recommencer une partie", command = Mafenetre.destroy) # Boutton pour recommencer une partie
-menuoption.add_command(label="A propos", command = Mafenetre.destroy)
+menuoption.add_command(label="A propos", command = apropos)
 menuoption.add_command(label="Quitter le jeu", command = Mafenetre.destroy) # Boutton pour quitter 
 menubar.add_cascade(label="Option", menu = menuoption)
 
