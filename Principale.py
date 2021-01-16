@@ -1,5 +1,5 @@
 ## Importation des bibliothèques nécessaires ##
-from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas
+from tkinter import Tk, Label, Button, PhotoImage, Menu, Entry, StringVar, Canvas, messagebox
 import math
 from Class import jeu_Spaceinvaders, class_allien, class_missile, class_vaisseau, class_bloc
 
@@ -193,12 +193,15 @@ def fin_de_partie():
         fin_de_partie()
 
 ## Tout ce qui est lié à l'interface graphique ##
+
+def apropos():
+    messagebox.showinfo(title='A propos', message='Jeu classique du SpaceInvaders réalisé par Adrien Corsetti et Quentin Melero')
     
 # Création d'un widget Menu
 menubar = Menu(Mafenetre)
 menuoption = Menu(menubar,tearoff =0)
 menuoption.add_command(label="Recommencer une partie", command = Mafenetre.destroy) # Boutton pour recommencer une partie
-menuoption.add_command(label="A propos", command = Mafenetre.destroy)
+menuoption.add_command(label="A propos", command = apropos)
 menuoption.add_command(label="Quitter le jeu", command = Mafenetre.destroy) # Boutton pour quitter 
 menubar.add_cascade(label="Option", menu = menuoption)
 
