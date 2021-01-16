@@ -5,6 +5,7 @@ class jeu_Spaceinvaders:
         # Stock des données du jeu SpaceInvaders
         self.Mafenetre = Mafenetre
         self.Vie = 3
+        self.Score = 0
 
 class class_alien:
     def __init__(self,X):
