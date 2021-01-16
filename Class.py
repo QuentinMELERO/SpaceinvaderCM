@@ -12,7 +12,7 @@ class class_alien:
         # Stock des infos sur l'allien
         self.Xa = X
         self.Ya = 100
-        self.vitesse_a = 4
+        self.vitesse_a = 7
         self.n = 0
         self.DX_a = self.vitesse_a
         self.RAYON_a = 20

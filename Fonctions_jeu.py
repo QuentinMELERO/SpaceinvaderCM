@@ -17,10 +17,10 @@ def Jeu():
     alien3 = class_alien(640)
     Aliens = [alien1,alien2,alien3]
     vaisseau = class_vaisseau()
-    Gagne = False
-    Perdu = False
+    Gagne = False # Variable Gagne nécessaire pour ma fonction qui détermine la victoire du joueur
+    Perdu = False # Variable Perdu nécessaire pour ma fonction qui détermine la victoire du joueur
 
-    # Zone principale du jeu
+    # Informations sur la zone principale du jeu
     HAUTEUR = 600
     LARGEUR = 1000
     CanvaJeu = Canvas(Mafenetre, bg='black')
@@ -34,7 +34,7 @@ def Jeu():
     # Création du vaisseau
     vaisseau_obj = CanvaJeu.create_rectangle(vaisseau.Xv-15, vaisseau.Yv-15, vaisseau.Xv+15, vaisseau.Yv+15, width=1, outline='black', fill='red')
 
-    # Zone de jeu
+    # Placement de la zone de jeu et lien avec le clavier
     CanvaJeu.focus_set()
     CanvaJeu.bind('<Key>',lambda event: Clavier(event))
     CanvaJeu.place(x=0, y=100, width=LARGEUR, height=HAUTEUR)
@@ -56,22 +56,21 @@ def Jeu():
             alien3.DX_a = -alien3.DX_a
             alien2.DX_a = -alien2.DX_a
             alien3.n += 1
-        # Descend d'un demi-rayon apres un aller-retour
-        if alien3.n == 2:
+        # Descend d'un demi-rayon apres avoir touché un bord
+        if alien3.n == 1:
             alien1.Ya += alien1.RAYON_a
             alien2.Ya += alien1.RAYON_a
             alien3.Ya += alien1.RAYON_a
             alien3.n = 0
-        alien1.Xa = alien1.Xa + alien1.DX_a
-        alien2.Xa = alien2.Xa + alien2.DX_a
-        alien3.Xa = alien3.Xa + alien3.DX_a
+        for alien in Aliens : 
+            alien.Xa = alien.Xa + alien.DX_a
         CanvaJeu.coords(alien1_obj,alien1.Xa-alien1.RAYON_a, alien1.Ya-alien1.RAYON_a, alien1.Xa+alien1.RAYON_a, alien1.Ya+alien1.RAYON_a)
         CanvaJeu.coords(alien2_obj,alien2.Xa-alien2.RAYON_a, alien2.Ya-alien2.RAYON_a, alien2.Xa+alien2.RAYON_a, alien2.Ya+alien2.RAYON_a)
         CanvaJeu.coords(alien3_obj,alien3.Xa-alien3.RAYON_a, alien3.Ya-alien3.RAYON_a, alien3.Xa+alien3.RAYON_a, alien3.Ya+alien3.RAYON_a)
         Mafenetre.after(20,lambda x=alien1 : deplacement_alien(x))
     Mafenetre.after(0,lambda x=alien1 : deplacement_alien(x))
 
-    ## Création des blocks
+    ## Création des blocs
     bloc1 = class_bloc(200,400)
     bloc2 = class_bloc(500,400)
     bloc3 = class_bloc(800,400)
@@ -82,9 +81,21 @@ def Jeu():
     # Bloc 3
     CanvaJeu.create_rectangle(bloc3.Xb-75, bloc3.Yb-50, bloc3.Xb+75, bloc3.Yb+50, width=1, outline='black', fill='red')
 
-    ## Fonction qui fait disparaitre l'alien et le missile lors d'une collison
+    ## Fonction pour afficher le nombre de vies du joueur
+    def NbVie(donnee_jeu):
+        """ Affiche le nombre de vie du joueur """
+        NbVie = Label(donnee_jeu.Mafenetre, text='Vies restantes : ' + str(donnee_jeu.Vie), bg='white',fg='black', font=100)
+        NbVie.place(x=700, y=5, width=300, height=30)
+
+    ## Fonction pour afficher le score du joueur
+    def Score(donnee_jeu):
+        """ Affiche le score du joueur """
+        Score = Label(Mafenetre, text='Score : ' + str(donnee_jeu.Score), bg='white',fg='black', font=100)
+        Score.place(x=5, y=5, width=250, height=30)
+
+    ## Fonction qui fait disparaitre l'alien et le missile lors d'une collison et du missile lors d'une collision avec un bloc
     def disparition(alien1,missile_balle,missile):
-        """ Fonction qui s'occupe de la disparition de l'alien et du missile lors d'une colllision """
+        """ Fonction qui s'occupe de la disparition du missile du vaisseau"""
         i = 0
         for alien in Aliens : 
             if  missile.Ym >= alien.Ya - alien.RAYON_a and missile.Ym <= alien.Ya + alien.RAYON_a and missile.Xm >= alien.Xa - alien.RAYON_a and missile.Xm <= alien.Xa + alien.RAYON_a: 
@@ -106,22 +117,9 @@ def Jeu():
             return True
         return False
 
-    ## Fonction pour afficher le nombre de vies du joueur
-    def NbVie(donnee_jeu):
-        """ Affiche le nombre de vie du joueur """
-        NbVie = Label(donnee_jeu.Mafenetre, text='Vies restantes : ' + str(donnee_jeu.Vie), bg='white',fg='black', font=100)
-        NbVie.place(x=700, y=5, width=300, height=30)
-
-    ## Fonction pour afficher le score du joueur
-    def Score(donnee_jeu):
-        """ Affiche le score du joueur """
-        Score = Label(Mafenetre, text='Score : ' + str(donnee_jeu.Score), bg='white',fg='black', font=100)
-        Score.place(x=5, y=5, width=250, height=30)
-    
-
     ## Fonction qui fait disparaitre le missile des aliens
     def disparition_missille_alien(vaisseau,missile_balle_alien,missile_alien):
-        """ Fonction qui s'occupe de la disparition du missile de l'alien et du vaisseau lors d'une collision """
+        """ Fonction qui s'occupe de la disparition du missile de l'alien """
         if  missile_alien.Ym >= vaisseau.Yv - 15 and missile_alien.Ym <= vaisseau.Yv + 15 and missile_alien.Xm >= vaisseau.Xv - 15 and missile_alien.Xm <= vaisseau.Xv + 15 : 
             CanvaJeu.delete(missile_balle_alien)
             # On perd une vie
@@ -139,35 +137,7 @@ def Jeu():
             return True
         return False
 
-    ## Fonction pour le à propos
-    def apropos():
-        """ Fonction pour la commande apropos"""
-        messagebox.showinfo(title='A propos', message='Jeu classique du SpaceInvaders réalisé par Adrien Corsetti et Quentin Melero')
-
-    ## Fonction pour rejouer
-    def rejouer():
-        """ Fonction pour la commande rejouer """
-        Mafenetre.destroy()
-        Jeu()
-
-    ## Fonction pour indiquer au joueur qu'il a gagné 
-    def gagne():
-        Gagne = True
-        for alien in Aliens :
-            if alien.alive == True :
-                Gagne = False
-        if Gagne == True :
-            buttonRecommencer = Button (Mafenetre, text="RECOMMENCER", fg ='black', bg='white',relief='groove', command = rejouer)
-            buttonRecommencer.place(x=200, y=400, width=300, height=100)
-            buttonQuitt = Button (Mafenetre, text="QUITTER", fg ='black', bg='white',relief='groove', command = Mafenetre.destroy)
-            buttonQuitt.place(x=500, y=400, width=300, height=100)
-            Bravo = Label(Mafenetre, text='Bravo, tu as gagné.', bg='white',fg='black', font=100)
-            Bravo.place(x=200, y=300, width=600, height=50)
-        else :
-            Mafenetre.after(1000,gagne)
-    gagne()    
-    
-    ## Fonction de déplacement pour le missile du vaisseau
+     ## Fonction de déplacement pour le missile du vaisseau
     def creation_missile():
         """ Fonction qui gères la création du missile du vaisseau """
         missile = class_missile(vaisseau.Xv,vaisseau.Yv)
@@ -216,6 +186,36 @@ def Jeu():
         Mafenetre.after(900,creation_missile_alien)
     creation_missile_alien()
 
+    ## Fonction pour le à propos
+    def apropos():
+        """ Fonction pour la commande apropos"""
+        messagebox.showinfo(title='A propos', message='Jeu classique du SpaceInvaders réalisé par Adrien Corsetti et Quentin Melero')
+
+    ## Fonction pour rejouer
+    def rejouer():
+        """ Fonction pour la commande rejouer """
+        Mafenetre.destroy()
+        Jeu()
+
+    ## Fonction pour indiquer au joueur qu'il a gagné 
+    def gagne():
+        """ Fonction qui montre au joueur qu'il a gagné """
+        Gagne = True
+        for alien in Aliens :
+            if alien.alive == True :
+                Gagne = False
+        if Gagne == True :
+            buttonRecommencer = Button (Mafenetre, text="RECOMMENCER", fg ='black', bg='white',relief='groove', command = rejouer)
+            buttonRecommencer.place(x=200, y=400, width=300, height=100)
+            buttonQuitt = Button (Mafenetre, text="QUITTER", fg ='black', bg='white',relief='groove', command = Mafenetre.destroy)
+            buttonQuitt.place(x=500, y=400, width=300, height=100)
+            Bravo = Label(Mafenetre, text='Bravo, tu as gagné.', bg='white',fg='black', font=100)
+            Bravo.place(x=200, y=300, width=600, height=50)
+        else :
+            Mafenetre.after(1000,gagne)
+    gagne()    
+    
+   
     ## Fonction de déplacement liée aux touches du clavier
     def Clavier(event):
         """ Gestion de l'évènement Appui sur une touche du clavier"""
@@ -232,8 +232,7 @@ def Jeu():
         # On dessine le vaisseau à sa nouvelle position
         CanvaJeu.coords(vaisseau_obj,vaisseau.Xv-15,vaisseau.Yv-15,vaisseau.Xv+15,vaisseau.Yv+15)
 
-
-    def fin_de_partie():
+    def perdu():
         """ Fonction qui indique au joueur qu'il a perdu """
         Perdu = False
         if alien1.Ya + alien1.RAYON_a >= vaisseau.Xv or alien2.Ya + alien2.RAYON_a >= vaisseau.Xv or alien3.Ya + alien3.RAYON_a >= vaisseau.Xv  :
@@ -247,14 +246,13 @@ def Jeu():
             buttonRecommencer.place(x=200, y=400, width=300, height=100)
             buttonQuitt = Button (Mafenetre, text="QUITTER", fg ='black', bg='white',relief='groove', command = Mafenetre.destroy)
             buttonQuitt.place(x=500, y=400, width=300, height=100)
-            partie_perdu = Label(Mafenetre, text='Dommage, tu as perdu', bg='white',fg='black', font=100)
+            partie_perdu = Label(Mafenetre, text='Dommage, tu as perdu.', bg='white',fg='black', font=100)
             partie_perdu.place(x=200, y=300, width=600, height=50)
         else : 
-            Mafenetre.after(1000,fin_de_partie)
-    fin_de_partie()
+            Mafenetre.after(1000,perdu)
+    perdu()
 
     ## Tout ce qui est lié à l'interface graphique ##
-
    
     # Création d'un widget Menu
     menubar = Menu(Mafenetre)
@@ -263,7 +261,6 @@ def Jeu():
     menuoption.add_command(label="A propos", command = apropos)
     menuoption.add_command(label="Quitter le jeu", command = Mafenetre.destroy) # Boutton pour quitter 
     menubar.add_cascade(label="Option", menu = menuoption)
-
 
     # Affichage du menu
     Mafenetre.config(menu = menubar)
