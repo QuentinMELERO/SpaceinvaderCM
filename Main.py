@@ -14,4 +14,3 @@ from Principale import Jeu
 
 Jeu()
 
-# Une partie commence avec l'interface graphique

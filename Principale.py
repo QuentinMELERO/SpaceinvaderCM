@@ -7,7 +7,7 @@ from Class import jeu_Spaceinvaders, class_alien, class_missile, class_vaisseau,
 
 def Jeu():
 
-# Création de la fenêtre graphique
+    # Création de la fenêtre graphique
     Mafenetre = Tk()
     Mafenetre.title('Space Invaders Corsetti-Melero')
     Mafenetre.geometry('1200x700')
