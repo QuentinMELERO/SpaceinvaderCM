@@ -8,7 +8,7 @@ Programme jouable qui nécessite encore quelques améliorations : niveaux, alien
 
 # Importation des bibliothèques nécessaires 
 
-from Principale import Jeu
+from Vaisseau import Jeu
 
 # Fonction principale
 
