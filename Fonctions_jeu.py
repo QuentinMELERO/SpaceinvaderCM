@@ -12,10 +12,10 @@ def Jeu():
     Mafenetre.title('Space Invaders Corsetti-Melero')
     Mafenetre.geometry('1200x700')
     donnee_jeu = jeu_Spaceinvaders(Mafenetre)
-    alien1 = class_alien(200)
+    alien1 = class_alien(200) # Crétations des données des aliens
     alien2 = class_alien(420)
     alien3 = class_alien(640)
-    Aliens = [alien1,alien2,alien3]
+    Aliens = [alien1,alien2,alien3] # Création d'une liste des ces données pour faciliter l'appel dans les fonctions
     vaisseau = class_vaisseau()
     Gagne = False # Variable Gagne nécessaire pour ma fonction qui détermine la victoire du joueur
     Perdu = False # Variable Perdu nécessaire pour ma fonction qui détermine la victoire du joueur
@@ -25,13 +25,13 @@ def Jeu():
     LARGEUR = 1000
     CanvaJeu = Canvas(Mafenetre, bg='black')
 
-    # Création des aliens
+    # Création graphique des aliens
     alien1_obj = CanvaJeu.create_oval(alien1.Xa-alien1.RAYON_a, alien1.Ya-alien1.RAYON_a, alien1.Xa+alien1.RAYON_a, alien1.Ya+alien1.RAYON_a, width=1, outline='black', fill='red')
     alien2_obj = CanvaJeu.create_oval(alien2.Xa-alien2.RAYON_a, alien2.Ya-alien2.RAYON_a, alien2.Xa+alien2.RAYON_a, alien2.Ya+alien2.RAYON_a, width=1, outline='black', fill='red')
     alien3_obj = CanvaJeu.create_oval(alien3.Xa-alien3.RAYON_a, alien3.Ya-alien3.RAYON_a, alien3.Xa+alien3.RAYON_a, alien3.Ya+alien3.RAYON_a, width=1, outline='black', fill='red')
     Aliens_obj = [alien1_obj,alien2_obj,alien3_obj]
 
-    # Création du vaisseau
+    # Création graphique du vaisseau
     vaisseau_obj = CanvaJeu.create_rectangle(vaisseau.Xv-15, vaisseau.Yv-15, vaisseau.Xv+15, vaisseau.Yv+15, width=1, outline='black', fill='red')
 
     # Placement de la zone de jeu et lien avec le clavier
@@ -44,13 +44,13 @@ def Jeu():
     ## Fonction de déplacement pour l'alien
     def deplacement_alien(alien1):
         """ Fonction qui gère le déplacement des aliens """
-        # Rebond à droite
-        if alien3.Xa + alien3.RAYON_a + alien3.DX_a > LARGEUR:
+        # Rebond à droite grâce à l'alien de droite
+        if alien3.Xa + alien3.RAYON_a + alien3.DX_a > LARGEUR: 
             alien3.DX_a = -alien3.DX_a
             alien2.DX_a = -alien2.DX_a
             alien1.DX_a = -alien1.DX_a
             alien3.n += 1
-        # Rebond à gauche
+        # Rebond à gauche grâce à l'alien de gauche
         if alien1.Xa - alien1.RAYON_a + alien1.DX_a < 0:
             alien1.DX_a = -alien1.DX_a
             alien3.DX_a = -alien3.DX_a
