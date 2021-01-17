@@ -173,7 +173,6 @@ def Jeu():
                 CanvaJeu.delete(missile_alien)
             else :
                 missile_alien.Ym = missile_alien.Ym + missile_alien.DY_m
-                #CanvaJeu.coords(missile_balle_alien,missile_alien.Xm-missile_alien.RAYON_m, missile_alien.Ym-missile_alien.RAYON_m, missile_alien.Xm+missile_alien.RAYON_m, missile_alien.Ym+missile_alien.RAYON_m)
                 CanvaJeu.move(missile_balle_alien,0,missile_alien.DY_m)
                 if not disparition_missille_alien(vaisseau,missile_balle_alien,missile_alien):
                     Mafenetre.after(50,lambda:deplacement_missile_alien(missile_alien,missile_balle_alien))
@@ -257,7 +256,7 @@ def Jeu():
     # Création d'un widget Menu
     menubar = Menu(Mafenetre)
     menuoption = Menu(menubar,tearoff =0)
-    menuoption.add_command(label="Recommencer une partie", command = Mafenetre.destroy) # Boutton pour recommencer une partie
+    menuoption.add_command(label="Recommencer une partie", command = rejouer) # Boutton pour recommencer une partie
     menuoption.add_command(label="A propos", command = apropos)
     menuoption.add_command(label="Quitter le jeu", command = Mafenetre.destroy) # Boutton pour quitter 
     menubar.add_cascade(label="Option", menu = menuoption)
